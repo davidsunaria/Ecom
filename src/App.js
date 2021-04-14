@@ -2,8 +2,9 @@ import React from "react"
 import { BrowserRouter, Route } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap'
 import HomeDynamic from "./Pages/HomeDynamic"
+import ItemRoute from "./Pages/ItemRoute"
 import About from "./Pages/About"
-import Contact from "./Pages/Contact"
+import Item from "./Pages/Item"
 import { Navbar, Nav, NavDropdown, Form, Button, FormControl } from 'react-bootstrap'
 
 
@@ -35,8 +36,8 @@ class App extends React.Component {
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                 </NavDropdown>
-                <LinkContainer to="/Contact">
-                  <Nav.Link >Contact Us</Nav.Link>
+                <LinkContainer to="/Item">
+                  <Nav.Link >Item</Nav.Link>
                 </LinkContainer>
               </Nav>
               <Form inline>
@@ -48,7 +49,7 @@ class App extends React.Component {
 
           <Route exact path="/" component={HomeDynamic} />
           <Route path="/About" component={About} />
-          <Route path="/Contact" component={Contact} />
+          <Route path="/item" component={ItemRoute} />
         </BrowserRouter>
       </>
     )

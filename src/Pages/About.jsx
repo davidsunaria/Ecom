@@ -27,8 +27,8 @@ class About extends React.Component {
 
     getData() {
         return this.state.clothes.map((single) => {
-            return <div className="mr-2" style={{ display: "inline-block" }}>
-                <img src={single.url} key={single.id} alt="about" height="200" width="300" />
+            return <div className="mr-2" style={{ display: "inline-block" }} key={single.id}>
+                <img src={single.url} alt="about" height="200" width="300" />
             </div>
 
         })
