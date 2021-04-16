@@ -36,3 +36,24 @@
   width: 286px;
   height: 350px;
 }
+
+.card-img-top:hover {
+  transform: scale(1.03);
+  transition: 1s;
+  transition-timing-function: linear;
+}
+
+.extra{
+  height: 170px;
+    width: 220px;
+    position: absolute;
+    bottom: 290px;
+    left: 33px;
+    background-color: rgba(0,255,0,0.4);
+}
+
+.font10{
+  font-size: 13px;
+}
+
+

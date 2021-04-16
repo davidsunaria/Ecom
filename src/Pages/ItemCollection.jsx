@@ -1,7 +1,7 @@
 import React from "react"
-import SingleProduct from "./SingleProduct"
 import { Card, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
+
 
 
 class ItemCollection extends React.Component {
@@ -278,22 +278,23 @@ class ItemCollection extends React.Component {
         return select.map((singleData) => {
 
             return singleData.items.map((singleValue) => {
+                //  console.log(singleValue.name)
 
-                return <div className="col-md-4 col-sm-12 mt-4" key={singleValue.id}>
-                    <Card style={{ width: '18rem' }}>
+                return <div className="col-md-4 col-sm-12 mt-4 " key={singleValue.id}>
+                    <Card style={{ width: '18rem' }} >
                         <Card.Img variant="top" src={singleValue.imageUrl} />
                         <Card.Body>
-                            <Card.Title>{singleValue.title}</Card.Title>
+                            <Card.Title>{singleValue.name} {singleValue.price}</Card.Title>
                             <Card.Text>
                                 Some quick example text to build on the card title and make up the bulk of
                                 the card's content.
     </Card.Text>
-                            <Link to={singleValue.title}  >
+                            <Link to={this.props.match.params.title + "/" + singleValue.id}  >
                                 <Button variant="primary">Shop Now</Button>
                             </Link>
                         </Card.Body>
                     </Card>
-                </div>
+                </div >
             })
 
         })
@@ -314,7 +315,7 @@ class ItemCollection extends React.Component {
             item = this.props.match.params.title + " Items"
         }
 
-        console.log(this.props.match.params.title)
+        console.log(this.props.match.params)
         return (
             <>
                 <div className="container">
@@ -325,6 +326,8 @@ class ItemCollection extends React.Component {
                     </div>
 
                 </div>
+
+
 
 
             </>
