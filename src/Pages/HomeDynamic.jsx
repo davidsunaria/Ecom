@@ -2,7 +2,6 @@ import React from "react"
 import Home from "./Home"
 import { Route, Switch } from 'react-router-dom';
 import SingleProduct from "./SingleProduct";
-import Cata from "./Cata"
 
 
 class HomeDynamic extends React.Component {

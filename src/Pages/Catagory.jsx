@@ -10,7 +10,7 @@ class Catagory extends React.Component {
 
 
     getCatagory() {
-        return this.context.catagory.map((singleItem) => {
+        return this.context.Catagory.map((singleItem) => {
             // console.log(singleItem)
             return <div className="col-md-4 col-sm-12 mt-4" key={singleItem.id}>
                 <Card style={{ width: '18rem' }}>
