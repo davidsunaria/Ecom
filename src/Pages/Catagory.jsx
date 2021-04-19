@@ -12,7 +12,6 @@ class Catagory extends React.Component {
     getCatagory() {
         return this.context.catagory.map((singleItem) => {
             // console.log(singleItem)
-            // console.log(this.context.brand + singleItem.title)
             return <div className="col-md-4 col-sm-12 mt-4" key={singleItem.id}>
                 <Card style={{ width: '18rem' }}>
                     <Card.Img variant="top" src={singleItem.url} />
@@ -22,7 +21,7 @@ class Catagory extends React.Component {
                             Some quick example text to build on the card title and make up the bulk of
                             the card's content.
     </Card.Text>
-                        <Link to={this.context.brand + singleItem.title}  >
+                        <Link to={"item/" + singleItem.title}  >
                             <Button variant="primary">Shop Now</Button>
                         </Link>
                     </Card.Body>

@@ -23,7 +23,7 @@ class Slider extends React.Component {
                     <Carousel.Item>
                         <img
                             className="d-block w-100"
-                            src="img/slide1.jpg"
+                            src="img/slide2.jpg"
                             alt="Second slide"
                         />
 
@@ -35,14 +35,14 @@ class Slider extends React.Component {
                     <Carousel.Item>
                         <img
                             className="d-block w-100"
-                            src="img/slide1.jpg"
+                            src="img/slide3.jpg"
                             alt="Third slide"
                         />
-
+                        {/* 
                         <Carousel.Caption>
                             <h3>Third slide label</h3>
                             <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-                        </Carousel.Caption>
+                        </Carousel.Caption> */}
                     </Carousel.Item>
                 </Carousel>
 

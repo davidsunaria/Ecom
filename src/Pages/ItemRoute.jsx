@@ -16,8 +16,8 @@ class HomeDynamic extends React.Component {
             <>
                 <Route exact path={this.props.match.path} component={Item} />
                 <Route exact path={this.props.match.path + "/:title"} component={ItemCollection} />
-                <Route path={this.props.match.path + "/:title" + "/:id"} component={SingleItem} />
-                <Route path={this.props.match.path + "/:title" + "/:id"} component={Demo} />
+                <Route exact path={this.props.match.path + "/:title" + "/:id"} component={SingleItem} />
+                {/* <Route path={this.props.match.path + "/:title" + "/:id" + "/:name"} component={Demo} /> */}
 
             </>
         )
