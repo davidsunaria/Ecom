@@ -11,20 +11,31 @@ import Womens from "./Pages/Women"
 import Shoes from "./Pages/Shoes"
 import Jackets from "./Pages/Jackets"
 import Item from "./Pages/Item"
-import { Navbar, Nav, NavDropdown, Form, Button, FormControl } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Badge } from 'react-bootstrap'
 import { ShopContext } from './Pages/context';
 import productsData from './data.json';
 class App extends React.Component {
 
   state = {
     products: productsData,
-    carts: []
+    carts: {
+      count: 0
+    }
+  }
+
+  getcart(count, price) {
+    // this.state.carts.push({ count: count, price: price })
+    let newcount = this.state.carts.count + 1
+    // let newprice = parseInt(price) * count
+    this.setState({
+      carts: { count: newcount }
+    })
   }
 
 
   render() {
     return (
-      <ShopContext.Provider value={{ ...this.state }}>
+      <ShopContext.Provider value={{ ...this.state, handler: this.getcart.bind(this) }}>
         <BrowserRouter>
           <Navbar bg="warning" expand="lg" sticky="top" className="justify-content-center">
             <Navbar.Brand ><img src="img/logo.png" alt="logo" width="70" /></Navbar.Brand>
@@ -63,11 +74,17 @@ class App extends React.Component {
                   <Nav.Link >Contact Us</Nav.Link>
                 </LinkContainer>
               </Nav>
+
+              <Button variant="primary" className="mr-3">
+                Cart <Badge variant="light">{this.state.carts.count}</Badge>
+                <span className="sr-only">unread messages</span>
+              </Button>
               <Form inline>
                 <FormControl type="text" placeholder="Search" className="mr-sm-2" />
                 <Button variant="outline-success">Search</Button>
               </Form>
             </Navbar.Collapse>
+
           </Navbar>
 
           <Route exact path="/" component={HomeDynamic} />

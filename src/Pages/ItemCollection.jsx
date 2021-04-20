@@ -20,6 +20,7 @@ class ItemCollection extends React.Component {
     handleShow = (rate) => {
         let count = this.state.count + 1
         let newRate = parseInt(rate) * count
+        this.context.handler(count, newRate)
         this.setState({
             show: true,
             count: count,

@@ -31,18 +31,22 @@ class SingleItem extends React.Component {
     }
 
 
-    add(rate) {
-
+    add(rate, batch) {
+        console.log(batch, rate)
         let count = this.state.count + 1
         let newRate = parseInt(rate) * count
+        this.context.handler(count, newRate)
         this.setState({ count: count, amount: newRate })
+
     }
 
 
-    remove(rate) {
+    remove(rate, batch) {
+        console.log(batch)
         if (this.state.count >= 1) {
             let count = this.state.count - 1
             let newRate = parseInt(rate) * count
+            this.context.handler(count, newRate)
             this.setState({ count: count, amount: newRate })
         }
         else {
@@ -162,7 +166,7 @@ class SingleItem extends React.Component {
 
                 else {
 
-                    return <>
+                    return <div key={lastdata.id}>
                         <h3 className="text-center text-white bg-primary mt-3 pb-2 pt-2">Order Summary</h3>
                         <div className="container jumbotron mt-5">
                             <div className="row text-center">
@@ -178,11 +182,11 @@ class SingleItem extends React.Component {
                                     <h2>Quantity</h2><br /><br />
                                     <h5>
                                         <span onClick={() => {
-                                            this.remove(lastdata.price)
+                                            this.remove(lastdata.price, lastdata.id)
                                         }} style={{ cursor: "pointer" }}>&lt; &nbsp;</span>
                                         {this.state.count}
                                         <span onClick={() => {
-                                            this.add(lastdata.price)
+                                            this.add(lastdata.price, lastdata.id)
                                         }} style={{ cursor: "pointer" }} >&nbsp; &gt;</span>
                                         {this.condition}
                                     </h5>
@@ -254,7 +258,7 @@ class SingleItem extends React.Component {
                         </div>
 
 
-                    </>
+                    </div>
 
                 }
 

@@ -12,7 +12,7 @@ class HomeDynamic extends React.Component {
         return (
             <>
                 <Route exact path={this.props.match.path} component={Home} />
-                <Route path={this.props.match.path + ":title"} component={SingleProduct} />
+                {/* <Route path={this.props.match.path + ":title"} component={SingleProduct} /> */}
             </>
         )
     }
