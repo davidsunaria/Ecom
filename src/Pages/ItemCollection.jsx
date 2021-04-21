@@ -17,10 +17,10 @@ class ItemCollection extends React.Component {
         rate: 0
     }
 
-    handleShow = (rate) => {
+    handleShow = (rate, id) => {
         let count = this.state.count + 1
         let newRate = parseInt(rate) * count
-        this.context.handler(count, newRate)
+        this.context.handler(id)
         this.setState({
             show: true,
             count: count,
@@ -60,7 +60,7 @@ class ItemCollection extends React.Component {
                                 <Button variant="success">Shop Now</Button>
                             </Link>
                             <Button variant="primary" onClick={() => {
-                                this.handleShow(singleValue.price)
+                                this.handleShow(singleValue.price, singleValue.id)
                             }} className="ml-3">
                                 Add to Cart
                            </Button>

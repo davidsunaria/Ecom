@@ -11,31 +11,89 @@ import Womens from "./Pages/Women"
 import Shoes from "./Pages/Shoes"
 import Jackets from "./Pages/Jackets"
 import Item from "./Pages/Item"
-import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Badge } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Badge, Modal } from 'react-bootstrap'
 import { ShopContext } from './Pages/context';
 import productsData from './data.json';
+import SingleItem from "./Pages/SingleItem";
+import { findAllByDisplayValue } from "@testing-library/dom";
 class App extends React.Component {
 
   state = {
     products: productsData,
-    carts: {
-      count: 0
-    }
+    carts: [],
+    show: false,
+    totalPrice: 0
   }
 
-  getcart(count, price) {
-    // this.state.carts.push({ count: count, price: price })
-    let newcount = this.state.carts.count + 1
-    // let newprice = parseInt(price) * count
+  handleShow = (priceDetail) => {
+    // { this.priceDetail.bind(this) }
     this.setState({
-      carts: { count: newcount }
+      show: true,
+      totalPrice: this.priceDetail
     })
+  }
+  handleClose = () => {
+    this.setState({
+      show: false
+    })
+  }
+
+  getcart(selectedId) {
+    let data1 = this.state.products.map((singleData) => {
+      return singleData.items.find((SingleItem) => {
+        if (SingleItem.id == selectedId) {
+          return true
+        }
+        else {
+          return false
+        }
+      })
+    })
+
+    let data2 = data1.find((singleValue) => {
+      if (singleValue == undefined) {
+        return false
+      }
+      else {
+        return true
+      }
+    })
+
+    this.state.carts.push(data2)
+    this.setState(this.state)
+  }
+
+  popcart() {
+    this.state.carts.pop()
+    this.setState(this.state)
+  }
+
+  priceDetail = () => {
+
+    // let data = this.state.carts.reduce((accum = 0, current = 0) => {
+    //   return parseInt(accum) + parseInt(current.price)
+    //   // console.log(current)
+    // })
+    // return data
+    // let total = 0
+    for (let i = 0; i < this.state.carts.length; i++) {
+      var total = total + parseInt(this.state.carts[i].price);
+
+    }
+    return total;
+
+    this.setState({
+
+    })
+
+
+
   }
 
 
   render() {
     return (
-      <ShopContext.Provider value={{ ...this.state, handler: this.getcart.bind(this) }}>
+      <ShopContext.Provider value={{ ...this.state, handler: this.getcart.bind(this), handler2: this.popcart.bind(this) }}>
         <BrowserRouter>
           <Navbar bg="warning" expand="lg" sticky="top" className="justify-content-center">
             <Navbar.Brand ><img src="img/logo.png" alt="logo" width="70" /></Navbar.Brand>
@@ -75,8 +133,8 @@ class App extends React.Component {
                 </LinkContainer>
               </Nav>
 
-              <Button variant="primary" className="mr-3">
-                Cart <Badge variant="light">{this.state.carts.count}</Badge>
+              <Button variant="primary" className="mr-3" onClick={this.handleShow}>
+                Cart <Badge variant="light">{this.state.carts.length}</Badge>
                 <span className="sr-only">unread messages</span>
               </Button>
               <Form inline>
@@ -97,6 +155,22 @@ class App extends React.Component {
           <Route path="/contact" component={Contact} />
           <Route path="/Jackets" component={Jackets} />
         </BrowserRouter>
+
+        <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Total price : {this.state.totalPrice}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.handleClose}>
+              Close
+          </Button>
+            <Button variant="primary" onClick={this.handleClose}>
+              Save Changes
+          </Button>
+          </Modal.Footer>
+        </Modal>
+
       </ShopContext.Provider>
     )
   }

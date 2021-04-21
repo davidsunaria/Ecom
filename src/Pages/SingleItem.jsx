@@ -32,21 +32,21 @@ class SingleItem extends React.Component {
 
 
     add(rate, batch) {
-        console.log(batch, rate)
+        // console.log(batch, rate)
         let count = this.state.count + 1
         let newRate = parseInt(rate) * count
-        this.context.handler(count, newRate)
+        this.context.handler(batch)
         this.setState({ count: count, amount: newRate })
 
     }
 
 
     remove(rate, batch) {
-        console.log(batch)
+        //console.log(batch)
         if (this.state.count >= 1) {
             let count = this.state.count - 1
             let newRate = parseInt(rate) * count
-            this.context.handler(count, newRate)
+            this.context.handler2()
             this.setState({ count: count, amount: newRate })
         }
         else {
