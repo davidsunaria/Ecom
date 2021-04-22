@@ -86,6 +86,7 @@ class SingleItem extends React.Component {
     }
 
     addcart2() {
+        this.context.handler3()
         this.setState({ cart: true, count: 0, amount: 0 })
     }
 

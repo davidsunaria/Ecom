@@ -6,11 +6,6 @@ import ItemRoute from "./Pages/ItemRoute"
 import About from "./Pages/About"
 import Contact from "./Pages/Contact"
 import Hats from "./Pages/Hats"
-import Mens from "./Pages/Mens"
-import Womens from "./Pages/Women"
-import Shoes from "./Pages/Shoes"
-import Jackets from "./Pages/Jackets"
-import Item from "./Pages/Item"
 import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Badge, Modal } from 'react-bootstrap'
 import { ShopContext } from './Pages/context';
 import productsData from './data.json';
@@ -25,11 +20,9 @@ class App extends React.Component {
     totalPrice: 0
   }
 
-  handleShow = (priceDetail) => {
-    // { this.priceDetail.bind(this) }
+  handleShow = () => {
     this.setState({
       show: true,
-      totalPrice: this.priceDetail
     })
   }
   handleClose = () => {
@@ -68,6 +61,10 @@ class App extends React.Component {
     this.setState(this.state)
   }
 
+  removeAll() {
+    this.setState({ carts: [] })
+  }
+
   priceDetail = () => {
 
     // let data = this.state.carts.reduce((accum = 0, current = 0) => {
@@ -75,16 +72,13 @@ class App extends React.Component {
     //   // console.log(current)
     // })
     // return data
-    // let total = 0
+    let total = 0
     for (let i = 0; i < this.state.carts.length; i++) {
-      var total = total + parseInt(this.state.carts[i].price);
+      total = total + parseInt(this.state.carts[i].price);
 
     }
     return total;
 
-    this.setState({
-
-    })
 
 
 
@@ -93,10 +87,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <ShopContext.Provider value={{ ...this.state, handler: this.getcart.bind(this), handler2: this.popcart.bind(this) }}>
+      <ShopContext.Provider value={{
+        ...this.state, handler: this.getcart.bind(this),
+        handler2: this.popcart.bind(this), handler3: this.removeAll.bind(this)
+      }}>
         <BrowserRouter>
           <Navbar bg="warning" expand="lg" sticky="top" className="justify-content-center">
-            <Navbar.Brand ><img src="img/logo.png" alt="logo" width="70" /></Navbar.Brand>
+            <Navbar.Brand ><img src="/img/logo.png" alt="logo" width="70" /></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="mr-auto ml-5">
@@ -110,16 +107,16 @@ class App extends React.Component {
                   <LinkContainer to="/Hats">
                     <NavDropdown.Item>Hats</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/Mens">
+                  <LinkContainer to="/Item/Mens">
                     <NavDropdown.Item>Mens</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/Women">
+                  <LinkContainer to="/Item/Womens">
                     <NavDropdown.Item>Women</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/Shoes">
+                  <LinkContainer to="/Item/Sneakers">
                     <NavDropdown.Item>Shoes</NavDropdown.Item>
                   </LinkContainer>
-                  <LinkContainer to="/Jackets">
+                  <LinkContainer to="/Item/Jackets">
                     <NavDropdown.Item>Jackets</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Divider />
@@ -149,16 +146,12 @@ class App extends React.Component {
           <Route path="/About" component={About} />
           <Route path="/item" component={ItemRoute} />
           <Route path="/Hats" component={Hats} />
-          <Route path="/Mens" component={Mens} />
-          <Route path="/Women" component={Womens} />
-          <Route path="/Shoes" component={Shoes} />
           <Route path="/contact" component={Contact} />
-          <Route path="/Jackets" component={Jackets} />
         </BrowserRouter>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Total price : {this.state.totalPrice}</Modal.Title>
+            <Modal.Title>Total price : {this.priceDetail()}</Modal.Title>
           </Modal.Header>
           <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
           <Modal.Footer>
