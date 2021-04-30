@@ -17,14 +17,12 @@ class ItemCollection extends React.Component {
         rate: 0
     }
 
-    handleShow = (rate, id) => {
+    handleShow = (id) => {
         let count = this.state.count + 1
-        let newRate = parseInt(rate) * count
         this.context.handler(id)
         this.setState({
-            show: true,
+            show: false,
             count: count,
-            rate: newRate
         })
     }
 
@@ -60,7 +58,7 @@ class ItemCollection extends React.Component {
                                 <Button variant="success">Shop Now</Button>
                             </Link>
                             <Button variant="primary" onClick={() => {
-                                this.handleShow(singleValue.price, singleValue.id)
+                                this.handleShow(singleValue.id)
                             }} className="ml-3">
                                 Add to Cart
                            </Button>
@@ -68,10 +66,6 @@ class ItemCollection extends React.Component {
                                 <Modal.Header closeButton>
                                     <Modal.Title>Total Item: {this.state.count}</Modal.Title><br />
                                 </Modal.Header>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Total Price: {this.state.rate + "$"}</Modal.Title>
-                                </Modal.Header>
-
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={this.handleClose}>
                                         Close
@@ -105,8 +99,12 @@ class ItemCollection extends React.Component {
         return (
             <>
                 <div className="container">
-                    <h1 className="text-center text-white bg-dark mt-3"> <marquee width="100%" direction="left" >
-                        There are 20% discount for every {item}  </marquee></h1>
+                    <div className="row mt-3">
+                        <div className="col">
+                            <h1 className="text-center text-white bg-dark mt-3"> <marquee width="100%" direction="left" >
+                                There are 20% discount for every {item}  </marquee></h1>
+                        </div>
+                    </div>
                     <div className="row">
                         {this.getCatagoryWise()}
                     </div>

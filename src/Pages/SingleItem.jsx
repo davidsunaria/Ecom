@@ -35,6 +35,7 @@ class SingleItem extends React.Component {
         // console.log(batch, rate)
         let count = this.state.count + 1
         let newRate = parseInt(rate) * count
+        // this.context.carts.push({ ...lastdata })
         this.context.handler(batch)
         this.setState({ count: count, amount: newRate })
 
@@ -81,8 +82,9 @@ class SingleItem extends React.Component {
 
     // }
 
-    addcart() {
-        this.setState({ cart: false })
+    addcart(id) {
+        this.context.handler(id)
+        this.setState({ cart: false, count: 1 })
     }
 
     addcart2() {
@@ -153,7 +155,7 @@ class SingleItem extends React.Component {
                                         <Link to={this.props.match.params.id}  >
                                             <Button variant="primary" className={this.state.line}
                                                 onClick={() => {
-                                                    this.addcart()
+                                                    this.addcart(this.props.match.params.id)
                                                 }}
                                             >Add to Cart</Button>
                                         </Link>

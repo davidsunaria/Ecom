@@ -6,7 +6,7 @@ import ItemRoute from "./Pages/ItemRoute"
 import About from "./Pages/About"
 import Contact from "./Pages/Contact"
 import Hats from "./Pages/Hats"
-import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Badge, Modal } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Badge, Modal, Table } from 'react-bootstrap'
 import { ShopContext } from './Pages/context';
 import productsData from './data.json';
 import SingleItem from "./Pages/SingleItem";
@@ -17,7 +17,9 @@ class App extends React.Component {
     products: productsData,
     carts: [],
     show: false,
-    totalPrice: 0
+    totalPrice: 0,
+
+
   }
 
   handleShow = () => {
@@ -52,7 +54,14 @@ class App extends React.Component {
       }
     })
 
-    this.state.carts.push(data2)
+    // this.state.products.forEach((singleData) => {
+    //   if (data2 == false) {
+
+    //   }
+    // })
+
+    data2.count = 1
+    this.state.carts.push({ ...data2 })
     this.setState(this.state)
   }
 
@@ -79,9 +88,69 @@ class App extends React.Component {
     }
     return total;
 
+  }
+
+  addCount = (index) => {
+    //console.log(id)
+    let tempCart = [...this.state.carts]
+    // let selectItem = tempCart.find(singleData => singleData.id === id)
+    //console.log(selectItem)
+    // let index = tempCart.indexOf(selectItem)
+    // let product = tempCart[index]
+    tempCart[index].count++
+
+    this.setState({
+      carts: [...tempCart]
+    })
+  }
+
+  MinusCount = (index) => {
+    //console.log(id)
+    let tempCart = [...this.state.carts]
+    // let selectItem = tempCart.find(singleData => singleData.id === id)
+    // // console.log(selectItem)
+    // let index = tempCart.indexOf(selectItem)
+    // let product = tempCart[index]
+    // product.count = product.count - 1;
+    if (tempCart[index].count > 0) {
+      tempCart[index].count--
+      this.setState({
+        carts: [...tempCart]
+      })
+    }
+
+  }
+
+  cartsData() {
 
 
-
+    return this.state.carts.map((singleData, i) => {
+      let price = null;
+      if (singleData.count === 1) {
+        price = singleData.price
+      }
+      else {
+        price = parseInt(singleData.price) * singleData.count
+      }
+      return <>
+        <tr key={singleData.id}>
+          <td><img src={singleData.imageUrl} className="cart-img2" /></td>
+          <td>{singleData.name}</td>
+          <td>{singleData.price}</td>
+          <td>
+            <span style={{ cursor: "pointer" }} onClick={() => {
+              this.MinusCount(i)
+            }}>&lt; &nbsp;</span>
+            {singleData.count}
+            <span style={{ cursor: "pointer" }} onClick={() => {
+              this.addCount(i)
+            }}
+            >&nbsp; &gt;</span>
+          </td>
+          <td>{price}</td>
+        </tr >
+      </>
+    })
   }
 
 
@@ -151,9 +220,23 @@ class App extends React.Component {
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Total price : {this.priceDetail()}</Modal.Title>
+            <Modal.Title>SubTotal : {this.priceDetail()}</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+          <Modal.Body><Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Item pic</th>
+                <th>Item Name</th>
+                <th>Per Item price</th>
+                <th>Quantity</th>
+                <th>Total price</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {this.cartsData()}
+            </tbody>
+          </Table></Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
               Close
