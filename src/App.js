@@ -65,24 +65,21 @@ class App extends React.Component {
     this.setState({ carts: [] })
   }
 
-  priceDetail = () => {
+  // priceDetail = () => {
 
-    // let data = this.state.carts.reduce((accum = 0, current = 0) => {
-    //   return parseInt(accum) + parseInt(current.price)
-    //   // console.log(current)
-    // })
-    // return data
-    let total = 0
-    for (let i = 0; i < this.state.carts.length; i++) {
-      total = total + parseInt(this.state.carts[i].price);
+  //   // let data = this.state.carts.reduce((accum = 0, current = 0) => {
+  //   //   return parseInt(accum) + parseInt(current.price)
+  //   //   // console.log(current)
+  //   // })
+  //   // return data
+  //   let total = 0
+  //   for (let i = 0; i < this.state.carts.length; i++) {
+  //     total = total + parseInt(this.state.carts[i].price);
 
-    }
-    return total;
+  //   }
+  //   return total;
 
-
-
-
-  }
+  // }
 
 
   render() {
@@ -151,7 +148,7 @@ class App extends React.Component {
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Total price : {this.priceDetail()}</Modal.Title>
+            {/* <Modal.Title>Total price : {this.priceDetail()}</Modal.Title> */}
           </Modal.Header>
           <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
           <Modal.Footer>
