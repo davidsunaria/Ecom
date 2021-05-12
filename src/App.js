@@ -6,7 +6,8 @@ import ItemRoute from "./Pages/ItemRoute"
 import About from "./Pages/About"
 import Contact from "./Pages/Contact"
 import Hats from "./Pages/Hats"
-import { Navbar, Nav, NavDropdown, Form, Button, FormControl, Badge, Modal, Table } from 'react-bootstrap'
+import LoginPage from "./Pages/LoginPage"
+import { Navbar, Nav, NavDropdown, Form, FormControl, Badge, Modal, Table, Button } from 'react-bootstrap'
 import { ShopContext } from './Pages/context';
 import productsData from './data.json';
 import SingleItem from "./Pages/SingleItem";
@@ -18,6 +19,14 @@ class App extends React.Component {
     carts: [],
     show: false,
     totalPrice: 0,
+    subTotal: 0,
+    currentItem: "developer",
+    log: true,
+    username: "",
+    pass: "",
+    password: "admin",
+    loginUser: "admin",
+    btnText: "Login"
 
 
   }
@@ -61,8 +70,12 @@ class App extends React.Component {
     // })
 
     data2.count = 1
+    data2.total = parseInt(data2.price) * data2.count
     this.state.carts.push({ ...data2 })
-    this.setState(this.state)
+    this.setState({ carts: [...this.state.carts] }, () => {
+      this.makeTotal()
+    }
+    )
   }
 
   popcart() {
@@ -74,21 +87,43 @@ class App extends React.Component {
     this.setState({ carts: [] })
   }
 
-  priceDetail = () => {
+  removeRow(index) {
+    console.log(index)
+    this.state.carts[index].total = 0
+    this.state.carts.splice(index, 1)
+    this.setState({
+      carts: [...this.state.carts]
+    }, () => {
+      this.makeTotal()
+    })
+  }
 
-    // let data = this.state.carts.reduce((accum = 0, current = 0) => {
-    //   return parseInt(accum) + parseInt(current.price)
-    //   // console.log(current)
-    // })
-    // return data
-    let total = 0
-    for (let i = 0; i < this.state.carts.length; i++) {
-      total = total + parseInt(this.state.carts[i].price);
-
-    }
-    return total;
+  makeTotal = () => {
+    let subtotal = 0
+    this.state.carts.map((singleData) => {
+      subtotal = subtotal + singleData.total
+    })
+    this.setState({
+      subTotal: subtotal
+    })
 
   }
+
+  // priceDetail = () => {
+
+  //   // let data = this.state.carts.reduce((accum = 0, current = 0) => {
+  //   //   return parseInt(accum) + parseInt(current.price)
+  //   //   // console.log(current)
+  //   // })
+  //   // return data
+  //   let total = 0
+  //   for (let i = 0; i < this.state.carts.length; i++) {
+  //     total = total + parseInt(this.state.carts[i].price);
+
+  //   }
+  //   return total;
+
+  // }
 
   addCount = (index) => {
     //console.log(id)
@@ -98,9 +133,13 @@ class App extends React.Component {
     // let index = tempCart.indexOf(selectItem)
     // let product = tempCart[index]
     tempCart[index].count++
+    tempCart[index].total = parseInt(tempCart[index].price) * tempCart[index].count
 
     this.setState({
       carts: [...tempCart]
+
+    }, () => {
+      this.makeTotal()
     })
   }
 
@@ -114,11 +153,37 @@ class App extends React.Component {
     // product.count = product.count - 1;
     if (tempCart[index].count > 0) {
       tempCart[index].count--
+      tempCart[index].total = parseInt(tempCart[index].price) * tempCart[index].count
       this.setState({
         carts: [...tempCart]
+
+      }, () => {
+        this.makeTotal()
       })
     }
 
+  }
+
+  inputValue = (event) => {
+    let currentItem = event.target.value
+    this.setState({
+      currentItem: currentItem
+    })
+  }
+
+  submitValue = () => {
+    let searchData = this.state.products.filter(singleData => {
+      if (this.state.currentItem == singleData.title) {
+        return true
+      }
+      else {
+        return false
+      }
+    })
+    console.log(searchData)
+    // return this.state.map.searchData(singleData => {
+
+    // })
   }
 
   cartsData() {
@@ -148,17 +213,82 @@ class App extends React.Component {
             >&nbsp; &gt;</span>
           </td>
           <td>{price}</td>
+          <td><button className="btn btn-info" onClick={() => {
+            this.removeRow(i)
+          }}>Del</button></td>
         </tr >
       </>
     })
   }
 
+  login = () => {
+    if (this.state.log == true) {
+      this.setState({
+        log: false
+      })
+    }
+    else {
+      this.setState({
+        log: true
+      })
+    }
+
+  }
+  changeuser(value) {
+    this.setState({
+      username: value
+    })
+  }
+
+  changepassword(value) {
+    this.setState({
+      pass: value
+    })
+  }
+
+  onsubmit() {
+    if (this.state.username == this.state.loginUser &&
+      this.state.pass == this.state.password) {
+      this.setState({
+        username: "",
+        log: true,
+        pass: "",
+        btnText: "Logout"
+      })
+    }
+    else {
+      this.setState({
+        log: false,
+        btnText: "Login"
+      })
+    }
+
+  }
+
 
   render() {
+    // console.log("carts number:", this.state.carts)
+    let page = null
+    if (this.state.log == true) {
+      page = <>
+        <Route exact path="/" component={HomeDynamic} />
+        <Route path="/About" component={About} />
+        <Route path="/item" component={ItemRoute} />
+        <Route path="/Hats" component={Hats} />
+        <Route path="/contact" component={Contact} />
+      </>
+    }
+    else {
+      page =
+        <LoginPage />
+
+    }
     return (
       <ShopContext.Provider value={{
         ...this.state, handler: this.getcart.bind(this),
-        handler2: this.popcart.bind(this), handler3: this.removeAll.bind(this)
+        handler2: this.popcart.bind(this), handler3: this.removeAll.bind(this),
+        handler4: this.changeuser.bind(this), handler5: this.onsubmit.bind(this),
+        handler6: this.changepassword.bind(this),
       }}>
         <BrowserRouter>
           <Navbar bg="warning" expand="lg" sticky="top" className="justify-content-center">
@@ -198,29 +328,27 @@ class App extends React.Component {
                   <Nav.Link >Contact Us</Nav.Link>
                 </LinkContainer>
               </Nav>
+              <button className="btn btn-danger mr-4" onClick={this.login}>{this.state.btnText}</button>
 
               <Button variant="primary" className="mr-3" onClick={this.handleShow}>
                 Cart <Badge variant="light">{this.state.carts.length}</Badge>
                 <span className="sr-only">unread messages</span>
               </Button>
               <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                <Button variant="outline-success">Search</Button>
+                <FormControl type="text" placeholder="Search" className="mr-sm-2" value={this.state.currentItem} onChange={this.inputValue} />
+                <Button variant="outline-success" onClick={this.submitValue}>Search</Button>
               </Form>
             </Navbar.Collapse>
 
           </Navbar>
 
-          <Route exact path="/" component={HomeDynamic} />
-          <Route path="/About" component={About} />
-          <Route path="/item" component={ItemRoute} />
-          <Route path="/Hats" component={Hats} />
-          <Route path="/contact" component={Contact} />
+          {page}
         </BrowserRouter>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>SubTotal : {this.priceDetail()}</Modal.Title>
+            {/* <Modal.Title>SubTotal : {this.priceDetail()}</Modal.Title> */}
+            <Modal.Title>SubTotal : {this.state.subTotal}</Modal.Title>
           </Modal.Header>
           <Modal.Body><Table striped bordered hover>
             <thead>
@@ -230,6 +358,7 @@ class App extends React.Component {
                 <th>Per Item price</th>
                 <th>Quantity</th>
                 <th>Total price</th>
+                <th>Delete</th>
               </tr>
             </thead>
 
@@ -237,14 +366,14 @@ class App extends React.Component {
               {this.cartsData()}
             </tbody>
           </Table></Modal.Body>
-          <Modal.Footer>
+          {/* <Modal.Footer>
             <Button variant="secondary" onClick={this.handleClose}>
               Close
           </Button>
             <Button variant="primary" onClick={this.handleClose}>
               Save Changes
           </Button>
-          </Modal.Footer>
+          </Modal.Footer> */}
         </Modal>
 
       </ShopContext.Provider>
