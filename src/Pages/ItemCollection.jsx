@@ -31,7 +31,6 @@ class ItemCollection extends React.Component {
             show: false
         })
     }
-
     getCatagoryWise() {
         let select = this.state.data.filter((singleCatagory) => {
             if (singleCatagory.title == this.props.match.params.title) {

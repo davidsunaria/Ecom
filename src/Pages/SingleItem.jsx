@@ -19,15 +19,24 @@ class SingleItem extends React.Component {
     }
 
     handleShow = () => {
-        this.setState({
-            show: true
-        })
+        if (this.context.log == false) {
+            this.props.history.push("login");
+        }
+        else {
+            this.setState({
+                show: true
+            })
+        }
+
     }
 
     handleClose = () => {
+
         this.setState({
             show: false
         })
+
+
     }
 
 

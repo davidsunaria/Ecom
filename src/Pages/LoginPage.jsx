@@ -14,8 +14,12 @@ class LoginPage extends React.Component {
         this.context.handler6(event.target.value)
     }
 
-    submit = () => {
-        this.context.handler5()
+    submit = (event) => {
+        console.log(this.props, event);
+        event.preventDefault();
+        this.context.handler5();
+        this.props.history.goBack();
+
     }
 
 
@@ -25,14 +29,12 @@ class LoginPage extends React.Component {
                 <div className="row mt-4">
                     <div className="col-md-4"></div>
                     <div className="col-md-4 bg-success p-3">
-                        <Form>
+                        <Form onSubmit={this.submit}>
                             <Form.Group controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email"
+                                <Form.Control type="text" placeholder="Enter email"
                                     value={this.context.username} onChange={this.changeuser} />
-                                <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
-    </Form.Text>
+
                             </Form.Group>
 
                             <Form.Group controlId="formBasicPassword">
@@ -41,12 +43,10 @@ class LoginPage extends React.Component {
                                     value={this.context.pass} onChange={this.changepass}
                                 />
                             </Form.Group>
-                            <Form.Group controlId="formBasicCheckbox">
-                                <Form.Check type="checkbox" label="Check me out" />
-                            </Form.Group>
-                            <Button variant="primary" type="submit" onClick={this.submit}>
+
+                            <Button variant="primary" type="submit" >
                                 Submit
-  </Button>
+                            </Button>
                         </Form>
                     </div>
                     <div className="col-md-4"></div>

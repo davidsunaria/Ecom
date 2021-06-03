@@ -1,14 +1,15 @@
 import React from "react"
 import Home from "./Home"
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import SingleProduct from "./SingleProduct";
+
 
 
 class HomeDynamic extends React.Component {
 
 
     render() {
-        console.log(this.props.match.path)
+        console.log(this.props)
         return (
             <>
                 <Route exact path={this.props.match.path} component={Home} />
@@ -18,4 +19,4 @@ class HomeDynamic extends React.Component {
     }
 }
 
-export default HomeDynamic
+export default withRouter(HomeDynamic)
